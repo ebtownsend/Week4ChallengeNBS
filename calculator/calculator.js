@@ -15,8 +15,6 @@ function inputDigit(digit) {
         calc.displayVal = digit;
         calc.waiting = false;
     } else {
-        console.log(displayVal);
-        console.log(digit);
         if (zero(digit)) {
             if(displayVal != '0') {
                 calc.displayVal = displayVal + digit;
