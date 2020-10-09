@@ -5,7 +5,7 @@ Stretch goals - create functionality fot (Memory - clear, recall, +, -).
 
 ## How I expected the challenge to go?
 
-I expected the challenge to be difficult as there is a lot of functionality and nuances with leading zeros, displaying and storing.
+I expected the challenge to be difficult as there is a lot of functionality and nuances with leading zeros, displaying and storing input values.
 
 ## What Went Well?
 
@@ -13,7 +13,8 @@ I was able to work out & implement the logic for the core functionality for the 
 
 ## What Didn't...
 
-Working out the functionality for the memory buttons was difficult, expecially as there was not clear specification of what these buttons should do.
+Attempting to work out the functionality for the memory buttons was difficult, expecially as there was not clear specification of what these buttons should do / what their desired functionality is.
 
 ## Possible Improvements 
 
+More clear instructions for desired functionality. 
