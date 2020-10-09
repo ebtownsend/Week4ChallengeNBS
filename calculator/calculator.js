@@ -5,16 +5,29 @@ const calc = {
     operator: null
 };
 
+function zero(digit){
+    return (digit == '0' || digit == '00');
+}
+
 function inputDigit(digit) {
     const displayVal = calc.displayVal;
     if(calc.waiting == true) {
         calc.displayVal = digit;
         calc.waiting = false;
     } else {
-        if (calc.displayVal = displayVal === '0') {
-            calc.displayVal = digit;
+        console.log(displayVal);
+        console.log(digit);
+        if (zero(digit)) {
+            if(displayVal != '0') {
+                calc.displayVal = displayVal + digit;
+                return;
+            }
         } else {
-            calc.displayVal = displayVal + digit;
+            if (displayVal == '0') {
+                calc.displayVal = digit;
+            } else {
+                calc.displayVal = displayVal + digit;
+            }
         }
     }
 }
@@ -33,6 +46,12 @@ function inputDecimal(dec) {
     }
 }
 
+function reverseNum() {
+    var num = parseFloat(calc.displayVal);
+    calc.displayVal = num * -1;
+    return;
+}
+
 function operatorHandler(next) {
     const first = calc.first;
     const displayVal = calc.displayVal;
@@ -47,7 +66,7 @@ function operatorHandler(next) {
     
     if(first == null && !isNaN(input)) {
         calc.first = input;
-    } else if (operator) {
+    } else if (operator && operator != '+-') {
         const result = calculate(first, input, operator);
         calc.displayVal = parseFloat(result.toFixed(7));
         calc.first = result;
@@ -106,6 +125,12 @@ keys.addEventListener('click', (event) => {
 
     if(target.classList.contains('clear')){
         clear();
+        updateScreen();
+        return;
+    }
+
+    if(target.classList.contains('sign')) {
+        reverseNum();
         updateScreen();
         return;
     }
