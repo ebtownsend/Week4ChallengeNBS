@@ -5,6 +5,78 @@ const calc = {
     operator: null
 };
 
+function inputDigit(digit) {
+    const displayVal = calc.displayVal;
+    if(calc.waiting == true) {
+        calc.displayVal = digit;
+        calc.waiting = false;
+    } else {
+        if (calc.displayVal = displayVal === '0') {
+            calc.displayVal = digit;
+        } else {
+            calc.displayVal = displayVal + digit;
+        }
+    }
+}
+
+function inputDecimal(dec) {
+    if(calc.waiting) {
+        calc.displayVal = '0.';
+        calc.waiting = false;
+        return;
+    }
+
+    for(let i = calc.displayVal.length - 1; i < calc.displayVal.length; i++) {
+        if(!(calc.displayVal[i] == '.')) {
+            calc.displayVal += dec;
+        }
+    }
+}
+
+function operatorHandler(next) {
+    const first = calc.first;
+    const displayVal = calc.displayVal;
+    const operator = calc.operator;
+
+    const input = parseFloat(displayVal);
+
+    if(operator && calc.waiting) {
+        calc.operator = next;
+        return;
+    }
+    
+    if(first == null && !isNaN(input)) {
+        calc.first = input;
+    } else if (operator) {
+        const result = calculate(first, input, operator);
+        calc.displayVal = parseFloat(result.toFixed(7));
+        calc.first = result;
+    }
+
+    calc.waiting = true;
+    calc.operator = next;
+}
+
+function calculate(first, second, operator) {
+    if(operator == '+') {
+        return first + second;
+    } else if (operator == '-') {
+        return first - second;
+    } else if(operator == '/') {
+        return first / second;
+    } else if (operator == '*') {
+        return first * second;
+    }
+    return second;
+}
+
+function clear() {
+    calc.displayVal = '0';
+    calc.first = null;
+    calc.waiting = false;
+    calc.operator = null;
+}
+
 function updateScreen() {
     const screen = document.getElementById("screen");
     screen.value = calc.displayVal;
@@ -21,19 +93,23 @@ keys.addEventListener('click', (event) => {
     }
 
     if(target.classList.contains('operator')) {
-        console.log('operator', target.value);
+        operatorHandler(target.value);
+        updateScreen();
         return;
     }
 
     if(target.classList.contains('decimal')) {
-        console.log('decimal', target.value);
+        inputDecimal(target.value);
+        updateScreen();
         return;
     }
 
     if(target.classList.contains('clear')){
-        console.log('clear', target.value);
+        clear();
+        updateScreen();
         return;
     }
 
-    console.log('digit', target.value);
+    inputDigit(target.value);
+    updateScreen();
 });
